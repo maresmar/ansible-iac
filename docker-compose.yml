@@ -1,11 +1,17 @@
 services:
   server1:
-    build: .
+    build: 
+      context: .
+      args:
+        ROOT_PASSWORD: ${ROOT_PASSWORD}
     ports:
       - "5001:22"
       - "8001:80"
   server2:
-    build: .
+    build: 
+      context: .
+      args:
+        ROOT_PASSWORD: ${ROOT_PASSWORD}
     ports:
       - "5002:22"
       - "8002:80"
