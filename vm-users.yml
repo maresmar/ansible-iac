@@ -1,0 +1,20 @@
+---
+- name: Setup vm users
+  hosts: vm_servers
+  become: true
+  vars_prompt:
+  - name: sep_password
+    prompt: password for sep-user
+    private: true
+    encrypt: sha512_crypt
+    confirm: true
+    salt_size: 7
+  tasks:
+  - name: Create the sep-user
+    ansible.builtin.user:
+      name: sep-user
+      shell: /bin/bash
+      password: "{{ sep_password }}" # never commit a real password to the git!
+      groups:
+      - sudo
+      state: present
