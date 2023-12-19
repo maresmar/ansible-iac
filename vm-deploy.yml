@@ -1,0 +1,19 @@
+---
+- name: Deploy simple web
+  hosts: vm_servers
+  become: true
+  tasks:
+  - name: Install nginx
+    ansible.builtin.apt:
+      name: nginx
+      state: present
+  - name: Upload index
+    ansible.builtin.template:
+      src: data/index.html.j2
+      dest: /var/www/html/index.html
+      mode: 0644
+    vars:
+      page_title: "Hello ansible"
+  - name: Start nginx # You should use systemd in production, but it doesn't work with containers
+    ansible.builtin.command:
+      cmd: "nginx"
